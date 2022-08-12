@@ -1,0 +1,25 @@
+.slide{
+    background-image: url('../../assets/crypto_bg.jpg'); 
+    height: 400px;
+    display: flex;
+    background-repeat: no-repeat;
+    flex-direction: column;
+    justify-content: space-around;
+ }
+
+ .heading{
+    font-weight: bold;
+    margin-top: -8px;
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    margin-bottom: -30px;
+ }
+
+ .info{
+    color: grey;
+    text-transform: capitalize;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+ }
