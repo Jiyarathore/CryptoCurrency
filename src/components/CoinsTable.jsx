@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { CryptoState } from '../ContextApi';
 import { CoinList } from "../apis/api";
-import { createTheme, LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ThemeProvider, Typography } from "@mui/material";
+import { createTheme, LinearProgress, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ThemeProvider, Typography } from "@mui/material";
 import { Container } from '@mui/system';
 // import { red } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +22,9 @@ function CoinsTable() {
 
     const [search, setSearch] = useState();
 
-    const [currdata,setCurrdata]=useState(coins);
+    const [currdata, setCurrdata] = useState(coins);
+
+    const [page, setPage] = useState(1);
 
     const navigate = useNavigate();
 
@@ -57,10 +59,10 @@ function CoinsTable() {
     const handleSearch = () => {
 
         // console.log("before",currdata);
-        setCurrdata( coins.filter((coin) =>
+        setCurrdata(coins.filter((coin) =>
             coin.name.toLowerCase().includes(search) ||
             coin.symbol.toLowerCase().includes(search)
-          )  )
+        ))
         //   console.log("after",currdata);
     }
 
@@ -83,7 +85,8 @@ function CoinsTable() {
                     sx={{ "& label": { color: "white" } }}
                     style={{ marginBottom: 20, width: "100%", color: "green", }}
                     InputProps={{ style: { color: "white" } }}
-                    onChange={(e) => {setSearch(e.target.value)
+                    onChange={(e) => {
+                        setSearch(e.target.value)
                         handleSearch();
                     }}
                 >
@@ -117,9 +120,12 @@ function CoinsTable() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {currdata.map((row) => {
+                                    {currdata.slice((page - 1) * 10, (page - 1) * 10 + 10).map((row) => {
                                         const profit = row.price_change_percentage_24h > 0;
-                                        console.log("jiat",currdata);
+
+                                        //slice is used so let page=1 so on 1st page 0 to 10 coins will be shown and if page=2 then 10 to 20 coins on next page
+
+                                        console.log("jiat", currdata);
                                         return (
                                             <TableRow
                                                 onClick={() => navigate.push(`/coins/${row.id}`)}
@@ -131,7 +137,7 @@ function CoinsTable() {
                                                     scope="row"
                                                     // role="cell"
                                                     // height="100px"
-                                                    styles={{
+                                                    style={{
                                                         display: "flex",
                                                         gap: 15,
                                                     }}
@@ -142,38 +148,47 @@ function CoinsTable() {
                                                         height="50"
                                                         style={{ marginBottom: 10 }}
                                                     />
-                                                   <div
-                                                   style={{ display:"flex",flexDirection:"column"}}
-                                                   >
-                                                   <span
-                                                   style={{
-                                                    textTransform:"uppercase",
-                                                    fonstSize:22,
-                                                    color:"white",
-                                                   }}
-                                                   >
-                                                   {row.symbol}
-                                                   </span>
-                                                   <span
-                                                   style={{color:"darkgrey"}}
-                                                   >
-                                                   {row.name}
-                                                   </span>
-                                                   </div>
+                                                    <div
+                                                        style={{ display: "flex", flexDirection: "column" }}
+                                                    >
+                                                        <span
+                                                            style={{
+                                                                textTransform: "uppercase",
+                                                                fonstSize: 22,
+                                                                color: "white",
+                                                            }}
+                                                        >
+                                                            {row.symbol}
+                                                        </span>
+                                                        <span
+                                                            style={{ color: "darkgrey" }}
+                                                        >
+                                                            {row.name}
+                                                        </span>
+                                                    </div>
                                                 </TableCell>
                                                 <TableCell align='right'
-                                                style={{color:'white'}} >
-                                                {symbol}{" "}
-                                                {NumberWithCommas(row.current_price.toFixed(2))}
+                                                    style={{ color: 'white' }} >
+                                                    {symbol}{" "}
+                                                    {NumberWithCommas(row.current_price.toFixed(2))}
                                                 </TableCell>
                                                 <TableCell
-                                                align='right'
-                                                style={{
-                                                    color: profit>0?"green":"red",
-                                                    fontWeight:500,
-                                                }}>
-                                                {profit && "+"}
-                                                {row.price_change_percentage_24h.toFixed(2)}%                         
+                                                    align='right'
+                                                    style={{
+                                                        color: profit > 0 ? "green" : "red",
+                                                        fontWeight: 500,
+                                                    }}>
+                                                    {profit && "+"}
+                                                    {row.price_change_percentage_24h.toFixed(2)}%
+                                                </TableCell>
+
+                                                <TableCell align='right'
+                                                    style={{ color: 'white' }}
+                                                >
+                                                    {symbol}{" "}
+                                                    {NumberWithCommas(row.market_cap.toString().slice(0, -6)
+                                                    )}
+                                                    M
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -183,6 +198,9 @@ function CoinsTable() {
                         )
                     }
                 </TableContainer>
+
+                {/* <Pagination count={(handleSearch()?.length / 10)}
+                 />  */}
             </Container>
         </ThemeProvider>
     )
