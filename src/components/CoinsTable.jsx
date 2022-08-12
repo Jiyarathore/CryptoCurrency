@@ -8,6 +8,12 @@ import { Container } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import "./CoinsTable.css";
 
+function NumberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export { NumberWithCommas }
+
 function CoinsTable() {
 
     const [coins, setCoins] = useState([]);
@@ -18,11 +24,9 @@ function CoinsTable() {
 
     const [currdata,setCurrdata]=useState(coins);
 
-
-
     const navigate = useNavigate();
 
-    const { currency } = CryptoState();
+    const { currency, symbol } = CryptoState();
     //destructing currency from CryptoState
 
     const fetchCoins = async () => {
@@ -30,7 +34,7 @@ function CoinsTable() {
         const { data } = await axios.get(CoinList(currency));
 
         setCoins(data);
-        setCurrdata(coins);
+        setCurrdata(data);
         setLoading(false);
     };
 
@@ -49,11 +53,15 @@ function CoinsTable() {
         },
     });
 
+
     const handleSearch = () => {
+
+        // console.log("before",currdata);
         setCurrdata( coins.filter((coin) =>
             coin.name.toLowerCase().includes(search) ||
             coin.symbol.toLowerCase().includes(search)
           )  )
+        //   console.log("after",currdata);
     }
 
     //we will compare th einput text by name as well as symbol 
@@ -111,6 +119,7 @@ function CoinsTable() {
                                 <TableBody>
                                     {currdata.map((row) => {
                                         const profit = row.price_change_percentage_24h > 0;
+                                        console.log("jiat",currdata);
                                         return (
                                             <TableRow
                                                 onClick={() => navigate.push(`/coins/${row.id}`)}
@@ -133,7 +142,38 @@ function CoinsTable() {
                                                         height="50"
                                                         style={{ marginBottom: 10 }}
                                                     />
-                                                   
+                                                   <div
+                                                   style={{ display:"flex",flexDirection:"column"}}
+                                                   >
+                                                   <span
+                                                   style={{
+                                                    textTransform:"uppercase",
+                                                    fonstSize:22,
+                                                    color:"white",
+                                                   }}
+                                                   >
+                                                   {row.symbol}
+                                                   </span>
+                                                   <span
+                                                   style={{color:"darkgrey"}}
+                                                   >
+                                                   {row.name}
+                                                   </span>
+                                                   </div>
+                                                </TableCell>
+                                                <TableCell align='right'
+                                                style={{color:'white'}} >
+                                                {symbol}{" "}
+                                                {NumberWithCommas(row.current_price.toFixed(2))}
+                                                </TableCell>
+                                                <TableCell
+                                                align='right'
+                                                style={{
+                                                    color: profit>0?"green":"red",
+                                                    fontWeight:500,
+                                                }}>
+                                                {profit && "+"}
+                                                {row.price_change_percentage_24h.toFixed(2)}%                         
                                                 </TableCell>
                                             </TableRow>
                                         );
