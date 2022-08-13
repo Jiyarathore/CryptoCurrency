@@ -103,7 +103,7 @@ const CoinInfo = ({ coin }) => {
     labels: dates,
     datasets: [
       {
-        label: `Price (Past ${days} Days) in `,
+        label: `Price (Past ${days} Days) in ${currency}`,
         data: prices,
         borderColor: '#EEBC1D',
         backgroundColor: '#EEBC1D',
