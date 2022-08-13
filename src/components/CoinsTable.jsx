@@ -23,7 +23,7 @@ function CoinsTable() {
 
     const [loading, setLoading] = useState(false);
 
-    const [search, setSearch] = useState();
+    const [search, setSearch] = useState([]);
 
     const [currdata, setCurrdata] = useState(coins);
 
@@ -59,12 +59,13 @@ function CoinsTable() {
 
     const handleSearch = () => {
         setCurrdata(coins.filter((coin) =>
+        
             coin.name.toLowerCase().includes(search) ||
             coin.symbol.toLowerCase().includes(search)
         ))
     }
 
-    //we will compare th einput text by name as well as symbol 
+    //we will compare the input text by name as well as symbol 
     //we will include handlesearch in TableBody so that we will get filtered coins
 
     return (

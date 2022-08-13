@@ -79,7 +79,7 @@ const CoinInfo = ({ coin }) => {
       },
       title: {
         display: true,
-        text: 'Chart.js Line Chart',
+        text: 'Price Variation',
       },
     },
     elements:{
@@ -105,8 +105,8 @@ const CoinInfo = ({ coin }) => {
       {
         label: `Price (Past ${days} Days) in ${currency}`,
         data: prices,
-        borderColor: '#EEBC1D',
-        backgroundColor: '#EEBC1D',
+        borderColor: 'purple',
+        backgroundColor: 'purple',
       }
     ],
   };
