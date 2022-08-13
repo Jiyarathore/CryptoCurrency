@@ -1,6 +1,5 @@
 import React from 'react';
 import "./Header.css";
-// import AppBar from '@mui/material/AppBar';
 import { AppBar,Container,createTheme, MenuItem, Select, ThemeProvider, Toolbar, Typography } from '@mui/material';
 import {useNavigate} from "react-router-dom";
 import { CryptoState } from '../ContextApi';
@@ -10,8 +9,6 @@ const Header = () => {
   const navigate = useNavigate();
 
 const {currency, setCurrency} = CryptoState();
-
-console.log(currency);
 
   const darkTheme = createTheme({
     palette: {

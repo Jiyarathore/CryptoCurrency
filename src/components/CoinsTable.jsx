@@ -43,8 +43,6 @@ function CoinsTable() {
         setLoading(false);
     };
 
-    console.log(coins);
-
     useEffect(() => {
         fetchCoins();
     }, [currency]);
@@ -60,13 +58,10 @@ function CoinsTable() {
 
 
     const handleSearch = () => {
-
-        // console.log("before",currdata);
         setCurrdata(coins.filter((coin) =>
             coin.name.toLowerCase().includes(search) ||
             coin.symbol.toLowerCase().includes(search)
         ))
-        //   console.log("after",currdata);
     }
 
     //we will compare th einput text by name as well as symbol 
@@ -116,7 +111,7 @@ function CoinsTable() {
                                                     fontWeight: "700"
                                                 }}
                                                 key={head}
-                                                align={head === "Coin" ? "" : "right"}
+                                                align={head === "Coin" ? "left" : "right"}
                                             >
                                                 {head}
                                             </TableCell>
@@ -130,9 +125,8 @@ function CoinsTable() {
 
                                         //slice is used so let page=1 so on 1st page 0 to 10 coins will be shown and if page=2 then 10 to 20 coins on next page
                                         return (
-                                            // <Link to={`/coins/${coins.id}`}>
                                             <TableRow
-                                                onClick={() => navigate.push(`/coins/${row.id}`)}
+                                                onClick={() => navigate(`/coins/${row.id}`)}
                                                 className="row"
                                                 key={row.name}
                                             >
@@ -195,7 +189,6 @@ function CoinsTable() {
                                                     M
                                                 </TableCell>
                                             </TableRow>
-                                            // </Link>
                                         );
                                     })}
                                 </TableBody>

@@ -24,8 +24,6 @@ function Carousel() {
         setTrending(data);
     };
 
-    console.log(trending);
-
     //we gone call fetchTrendingCoins function when our component is 1st time rendered so we will call it in useEffect 
 
     useEffect(() => {
