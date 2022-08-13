@@ -16,11 +16,6 @@ function NumberWithCommas(x) {
 
 export { NumberWithCommas }
 
-function NumberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-export { NumberWithCommas }
 
 function CoinsTable() {
 

@@ -1,21 +1,9 @@
 .row{
     background-color: black;
       cursor:pointer;
-<<<<<<< HEAD
-      /* &:hover: {
-        background-color:  #131111
-      }, */
-}
-.icon{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-=======
       
 }
 
 .row:hover {
   background-color:  #131111
->>>>>>> cf8cb408be00d864bcab8f78ddd976f3a66bca77
 }
