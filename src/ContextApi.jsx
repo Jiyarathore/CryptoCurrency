@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const Crypto = createContext()
 
-function ContextApi({children}) {
+const ContextApi=(({children})=>{
 
 const [currency, setCurrency]= useState("INR");
 const [symbol, setSymbol] = useState("₹");
@@ -21,7 +21,7 @@ const [symbol, setSymbol] = useState("₹");
   //Provider is a component that provides the state to its children. It will hold the "store" and be the parent of all the components that might need that store.
   //Consumer is a component that consumes and uses the state
   
-}
+})
 
 const CryptoState= ()=>{
     return useContext(Crypto);

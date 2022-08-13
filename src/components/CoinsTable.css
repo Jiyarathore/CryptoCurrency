@@ -5,3 +5,9 @@
         background-color:  #131111
       }, */
 }
+.icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}

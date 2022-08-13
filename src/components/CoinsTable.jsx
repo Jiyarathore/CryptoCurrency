@@ -2,11 +2,19 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { CryptoState } from '../ContextApi';
 import { CoinList } from "../apis/api";
-import { createTheme, LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ThemeProvider, Typography } from "@mui/material";
+import { createTheme, LinearProgress, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ThemeProvider, Typography } from "@mui/material";
 import { Container } from '@mui/system';
 // import { red } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
 import "./CoinsTable.css";
+import SearchIcon from '@mui/icons-material/Search';
+import { Link } from 'react-router-dom';
+
+function NumberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+export { NumberWithCommas }
 
 function CoinsTable() {
 
@@ -16,13 +24,13 @@ function CoinsTable() {
 
     const [search, setSearch] = useState();
 
-    const [currdata,setCurrdata]=useState(coins);
+    const [currdata, setCurrdata] = useState(coins);
 
-
+    const [page, setPage] = useState(1);
 
     const navigate = useNavigate();
 
-    const { currency } = CryptoState();
+    const { currency, symbol } = CryptoState();
     //destructing currency from CryptoState
 
     const fetchCoins = async () => {
@@ -30,7 +38,7 @@ function CoinsTable() {
         const { data } = await axios.get(CoinList(currency));
 
         setCoins(data);
-        setCurrdata(coins);
+        setCurrdata(data);
         setLoading(false);
     };
 
@@ -49,17 +57,22 @@ function CoinsTable() {
         },
     });
 
+
     const handleSearch = () => {
-        setCurrdata( coins.filter((coin) =>
+
+        // console.log("before",currdata);
+        setCurrdata(coins.filter((coin) =>
             coin.name.toLowerCase().includes(search) ||
             coin.symbol.toLowerCase().includes(search)
-          )  )
+        ))
+        //   console.log("after",currdata);
     }
 
     //we will compare th einput text by name as well as symbol 
     //we will include handlesearch in TableBody so that we will get filtered coins
 
     return (
+        
         <ThemeProvider theme={darkTheme}>
             <Container style={{ textAlign: "center" }}>
                 <Typography
@@ -70,12 +83,14 @@ function CoinsTable() {
                 </Typography>
 
                 <TextField
-                    label="Search For a Crypto Currency"
+                    label={<><SearchIcon/>
+                    <span style={{fontSize:18, width:"200px", marginBottom:20}}>Search For a Crypto Currency</span></>}
                     variant='outlined'
-                    sx={{ "& label": { color: "white" } }}
-                    style={{ marginBottom: 20, width: "100%", color: "green", }}
-                    InputProps={{ style: { color: "white" } }}
-                    onChange={(e) => {setSearch(e.target.value)
+                    sx={{ "& label": { color: "white"} }}
+                    style={{ marginBottom: 20, width: "100%", color: "white"}}
+                    InputProps={{ style: { color: "white",} }}
+                    onChange={(e) => {
+                        setSearch(e.target.value)
                         handleSearch();
                     }}
                 >
@@ -109,9 +124,12 @@ function CoinsTable() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {currdata.map((row) => {
+                                    {currdata.slice((page - 1) * 10, (page - 1) * 10 + 10).map((row) => {
                                         const profit = row.price_change_percentage_24h > 0;
+
+                                        //slice is used so let page=1 so on 1st page 0 to 10 coins will be shown and if page=2 then 10 to 20 coins on next page
                                         return (
+                                            // <Link to={`/coins/${coins.id}`}>
                                             <TableRow
                                                 onClick={() => navigate.push(`/coins/${row.id}`)}
                                                 className="row"
@@ -122,7 +140,7 @@ function CoinsTable() {
                                                     scope="row"
                                                     // role="cell"
                                                     // height="100px"
-                                                    styles={{
+                                                    style={{
                                                         display: "flex",
                                                         gap: 15,
                                                     }}
@@ -133,9 +151,50 @@ function CoinsTable() {
                                                         height="50"
                                                         style={{ marginBottom: 10 }}
                                                     />
-                                                   
+                                                    <div
+                                                        style={{ display: "flex", flexDirection: "column" }}
+                                                    >
+                                                        <span
+                                                            style={{
+                                                                textTransform: "uppercase",
+                                                                fonstSize: 22,
+                                                                color: "white",
+                                                            }}
+                                                        >
+                                                            {row.symbol}
+                                                        </span>
+                                                        <span
+                                                            style={{ color: "darkgrey" }}
+                                                        >
+                                                            {row.name}
+                                                        </span>
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell align='right'
+                                                    style={{ color: 'white' }} >
+                                                    {symbol}{" "}
+                                                    {NumberWithCommas(row.current_price.toFixed(2))}
+                                                </TableCell>
+                                                <TableCell
+                                                    align='right'
+                                                    style={{
+                                                        color: profit > 0 ? "green" : "red",
+                                                        fontWeight: 500,
+                                                    }}>
+                                                    {profit && "+"}
+                                                    {row.price_change_percentage_24h.toFixed(2)}%
+                                                </TableCell>
+
+                                                <TableCell align='right'
+                                                    style={{ color: 'white' }}
+                                                >
+                                                    {symbol}{" "}
+                                                    {NumberWithCommas(row.market_cap.toString().slice(0, -6)
+                                                    )}
+                                                    M
                                                 </TableCell>
                                             </TableRow>
+                                            // </Link>
                                         );
                                     })}
                                 </TableBody>
@@ -143,6 +202,9 @@ function CoinsTable() {
                         )
                     }
                 </TableContainer>
+
+                {/* <Pagination count={(handleSearch()?.length / 10)}
+                 />  */}
             </Container>
         </ThemeProvider>
     )
