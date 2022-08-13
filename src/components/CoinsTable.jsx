@@ -2,13 +2,14 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { CryptoState } from '../ContextApi';
 import { CoinList } from "../apis/api";
-import { createTheme, LinearProgress, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ThemeProvider, Typography } from "@mui/material";
+import { createTheme, LinearProgress,  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ThemeProvider, Typography } from "@mui/material";
 import { Container } from '@mui/system';
 // import { red } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
 import "./CoinsTable.css";
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
+import {Pagination} from "@mui/lab";
 
 function NumberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -134,8 +135,6 @@ function CoinsTable() {
                                                 <TableCell
                                                     component="th"
                                                     scope="row"
-                                                    // role="cell"
-                                                    // height="100px"
                                                     style={{
                                                         display: "flex",
                                                         gap: 15,
@@ -198,8 +197,21 @@ function CoinsTable() {
                     }
                 </TableContainer>
 
-                {/* <Pagination count={(handleSearch()?.length / 10)}
-                 />  */}
+                <Pagination
+          style={{
+            padding: 20,
+            width: "100%",
+            display: "flex",
+            justifyContent: "center"
+          }}
+          sx={{ "& .MuiPaginationItem-root": { color: "purple"} }}
+          count={(currdata?.length / 10).toFixed(0)}
+        //   classes={{ ul: pagination }}
+          onChange={(_, value) => {
+            setPage(value);
+            window.scroll(0, 450);
+          }}
+        />
             </Container>
         </ThemeProvider>
     )
