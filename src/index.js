@@ -10,12 +10,9 @@ ReactDOM.render(
     <>
     <React.StrictMode> 
     <ContextApi>
-
         <App />
     </ContextApi>
     </React.StrictMode>
     </>
-    
      ,
-    // <App/>,
     document.getElementById("root"));
