@@ -1,11 +1,12 @@
 .slide{
-    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/127738/tunnel_torus.jpg'); 
-    height: 400px;
-    display: flex;
-    background-repeat: no-repeat;
-    flex-direction: column;
-    justify-content: space-around;
- }
+   background-image: url('../../assets/meta.jpg'); 
+   height: 400px;
+   display: flex;
+   background-size: cover;
+   background-repeat: no-repeat;
+   flex-direction: column;
+   justify-content: space-around;
+}
 
  .heading{
     font-weight: bold;
