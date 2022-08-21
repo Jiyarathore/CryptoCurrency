@@ -82,21 +82,21 @@ const CoinInfo = ({ coin }) => {
         text: 'Price Variation',
       },
     },
-    elements:{
-        point:{
-            radius:1,
-        },
+    elements: {
+      point: {
+        radius: 1,
+      },
     }
   };
-  const dates=[];
-  const prices=[];
-  historicalData && historicalData.map((coin)=>{
-    let date=new Date(coin[0])
-    let time=
-    date.getHours()>12
-    ?`${date.getHours()-12}:${date.getMinutes()} PM`
-    :`${date.getHours()}:${date.getMinutes()} AM`
-    dates.push(days==1?time:date.toLocaleDateString());
+  const dates = [];
+  const prices = [];
+  historicalData && historicalData.map((coin) => {
+    let date = new Date(coin[0])
+    let time =
+      date.getHours() > 12
+        ? `${date.getHours() - 12}:${date.getMinutes()} PM`
+        : `${date.getHours()}:${date.getMinutes()} AM`
+    dates.push(days == 1 ? time : date.toLocaleDateString());
     prices.push(coin[1]);
   });
   const data = {
@@ -121,7 +121,7 @@ const CoinInfo = ({ coin }) => {
           />
         ) : (
           <>
-          <Line options={options} data={data} />
+            <Line options={options} data={data} />
             <div
               style={{
                 display: "flex",

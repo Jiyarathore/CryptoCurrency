@@ -4,11 +4,9 @@ import { CryptoState } from '../ContextApi';
 import { CoinList } from "../apis/api";
 import { createTheme, LinearProgress,  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, ThemeProvider, Typography } from "@mui/material";
 import { Container } from '@mui/system';
-// import { red } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
 import "./CoinsTable.css";
 import SearchIcon from '@mui/icons-material/Search';
-import { Link } from 'react-router-dom';
 import {Pagination} from "@mui/lab";
 
 function NumberWithCommas(x) {
@@ -16,7 +14,6 @@ function NumberWithCommas(x) {
 }
 
 export { NumberWithCommas }
-
 
 function CoinsTable() {
 
@@ -206,7 +203,6 @@ function CoinsTable() {
           }}
           sx={{ "& .MuiPaginationItem-root": { color: "purple"} }}
           count={(currdata?.length / 10).toFixed(0)}
-        //   classes={{ ul: pagination }}
           onChange={(_, value) => {
             setPage(value);
             window.scroll(0, 450);

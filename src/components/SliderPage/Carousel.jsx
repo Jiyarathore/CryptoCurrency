@@ -33,7 +33,7 @@ function Carousel() {
     //evertime the currency changes we fetch coins again becoz currency has changed
     const items = trending.map((coin) => {
         return (
-            <Link /*className="carouselItem"*/ to={`/coins/${coin.id}`}>
+            <Link to={`/coins/${coin.id}`}>
                 <div className="carouselItem">
                     <img
                         src={coin?.image}
@@ -45,8 +45,8 @@ function Carousel() {
                         {coin?.symbol}
                         &nbsp;
                         <span style={{
-                            color:coin.price_change_percentage_24h>0 ? "green":"red",
-                            fontWeight:500,
+                            color: coin.price_change_percentage_24h > 0 ? "green" : "red",
+                            fontWeight: 500,
                         }}>
                             {coin.price_change_percentage_24h >= 0 && "+"} {coin?.price_change_percentage_24h?.toFixed(2)}%
                         </span>
